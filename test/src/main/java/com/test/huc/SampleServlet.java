@@ -30,12 +30,12 @@ public class SampleServlet {
 	}
 	
 	@RequestMapping(value = "/getFile", method = RequestMethod.POST)
-	public String getURL(Model model, MultipartFile file) {
+	public String getURL(Model model, MultipartFile file, String id) {
 		System.out.println("/getFile 들어옴!");
 		System.out.println("file:"+file);
 		System.out.println("fileName:"+file.getName());
 		System.out.println("fileName:"+file.getOriginalFilename());
-		
+		System.out.println("id:"+id);
 		File f= new File("C:\\Users\\user\\Desktop\\"+"new"+file.getOriginalFilename());
 		try {
 			file.transferTo(f);

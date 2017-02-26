@@ -81,7 +81,7 @@ public class HomeController {
 			OutputStream os = conn.getOutputStream();
 			
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8")); // 캐릭터셋 설정
-
+			
 			writer.write("id=" + dto.getId() + "&name=" + dto.getName()+"&file="); // 요청 파라미터를 입력
 
 			//스트림의 버퍼를 비워준다.
@@ -190,6 +190,7 @@ public class HomeController {
 
 			//써진 버퍼를 stream에 출력.  
 			dos.flush(); 
+			
 
 			//전송. 결과를 수신.
 			InputStream is = conn.getInputStream(); 
