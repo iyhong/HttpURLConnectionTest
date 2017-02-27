@@ -16,14 +16,8 @@ public class SampleServlet {
 	@RequestMapping(value = "/SampleServlet", method = RequestMethod.POST)
 	public String getURL(String id, String name, Model model) throws UnsupportedEncodingException {
 		System.out.println("/SampleServlet 들어옴!");
-		//req.setCharacterEncoding("utf-8");
 		System.out.println("id:" + id);
 		System.out.println("name:" + name);
-		/*Enumeration<String> paramName = req.getParameterNames();
-		while (paramName.hasMoreElements()) {
-			String name1 = paramName.nextElement();
-			System.out.println(name1 + "=" + req.getParameter(name1));
-		}*/
 		model.addAttribute("id", id);
 		model.addAttribute("name", name);
 		return "home";
@@ -36,7 +30,31 @@ public class SampleServlet {
 		System.out.println("fileName:"+file.getName());
 		System.out.println("fileName:"+file.getOriginalFilename());
 		System.out.println("id:"+id);
-		File f= new File("C:\\Users\\user\\Desktop\\"+"new"+file.getOriginalFilename());
+		//File f= new File("C:\\Users\\user\\Desktop\\"+"new"+file.getOriginalFilename());
+		File f= new File("C:\\Users\\Administrator\\Desktop\\"+"new"+file.getOriginalFilename());
+		
+		try {
+			file.transferTo(f);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "file";
+	}
+	
+	@RequestMapping(value = "/getParamAndFile", method = RequestMethod.POST)
+	public String getData(Model model, MultipartFile file, String id, String name) {
+		System.out.println("/getData 들어옴!");
+		System.out.println("fileName:"+file.getName());
+		System.out.println("fileName:"+file.getOriginalFilename());
+		System.out.println("id:"+id);
+		System.out.println("name:"+name);
+		//File f= new File("C:\\Users\\user\\Desktop\\"+"new"+file.getOriginalFilename());
+		File f= new File("C:\\Users\\Administrator\\Desktop\\"+"new"+file.getOriginalFilename());
+		
 		try {
 			file.transferTo(f);
 		} catch (IllegalStateException e) {

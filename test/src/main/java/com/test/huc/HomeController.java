@@ -1,29 +1,19 @@
 package com.test.huc;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.Enumeration;
-import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,23 +35,10 @@ public class HomeController {
 		HttpURLConnection conn = null;
 		System.out.println("id:"+dto.getId());
 		System.out.println("name:"+dto.getName());
-		//System.out.println("imgFile:"+dto.getFile().getContentType());
-		//StringBuffer fileData = new StringBuffer(1000);
-		//File file = (File) dto.getFile();
+
 		try {
-			
-			/*BufferedReader reader = new BufferedReader( new InputStreamReader(new FileInputStream(file),"utf-8"));
-			
-			char[] buf = new char[1024];
-	        int numRead=0;
-	        while((numRead=reader.read(buf)) != -1){
-	            fileData.append(buf, 0, numRead);
-	        }
-	        reader.close();
-		
-	        String file_string_to_send = fileData.toString();*/
-        
-			URL url = new URL("http://localhost/huc/SampleServlet");
+					        
+			 URL url = new URL("http://localhost/huc/SampleServlet");
 			// URL url = new URL("http://loverman85.cafe24.com/test/SampleServlet");
 			// URL url = new URL("http://loverman85.cafe24.com/bigtower/government/getData");
 
@@ -69,9 +46,6 @@ public class HomeController {
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST"); // 요청 방식을 설정 (default : GET)
 
-			//conn.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
-			//conn.setRequestProperty( "Content-Length", Integer.toString(file_string_to_send.length()) );
-			
 			conn.setDoInput(true); // input을 사용하도록 설정 (default : true)
 			conn.setDoOutput(true); // output을 사용하도록 설정 (default : false)
 
@@ -88,7 +62,6 @@ public class HomeController {
 			writer.flush();
 			writer.close();
 
-			//os.write( file_string_to_send.getBytes("utf-8") );
 			//스트림을 닫아준다.
 			os.close();
 
@@ -191,7 +164,6 @@ public class HomeController {
 			//써진 버퍼를 stream에 출력.  
 			dos.flush(); 
 			
-
 			//전송. 결과를 수신.
 			InputStream is = conn.getInputStream(); 
 		} catch (IOException e) {
@@ -200,4 +172,29 @@ public class HomeController {
 		}
 		return "file";
 	}
+	//파일전송 폼 보여주기
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public String fileTest() {
+		return "paramAndFile";
+	}
+	
+	//파일전송 폼 보여주기
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	public String fileTest(String id, String name, MultipartFile file ) {
+		System.out.println("fileTest 진입");
+		System.out.println("id:"+id);
+		System.out.println("name:"+name);
+		System.out.println("fileName:"+file.getOriginalFilename());
+		Http http = new Http("http://127.0.0.1/huc/getParamAndFile");
+		File f = new File(file.getOriginalFilename());
+		try {
+			file.transferTo(f);
+			http.addParam("id", id).addParam("name", name).addParam("file", f).submit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "paramAndFile";
+	}
+	
 }

@@ -13,7 +13,9 @@
 	HttpUrlConnection Test!  
 </h1>
 
-<form action="<c:url value="/file"/>" method="post" enctype="multipart/form-data">
+<form action="<c:url value="/test"/>" method="post" enctype="multipart/form-data">
+	id:<input type="text" name="id"><br>
+	name:<input type="text" name="name"><br>
 	file:<input type="file" name="file"><br>
 	<input type="submit">
 </form>
