@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class HomeController {
 		return "home";
 	}
 
-	//매개변수 받아서 서버통신 실행
+	// httpUrlConnection 사용한 매개변수 받아서 서버통신 실행
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String home(Dto dto) {
 		System.out.println("홈");
@@ -110,7 +110,7 @@ public class HomeController {
 		return "file";
 	}
 	
-	//파일전송
+	// httpUrlConnection 사용한 파일만전송
 	@RequestMapping(value = "/file", method = RequestMethod.POST)
 	public String fileUpload(MultipartFile file) {
 		final String boundary = "alskdfj993klnav211dsfa1";
@@ -179,7 +179,7 @@ public class HomeController {
 		return "paramAndFile";
 	}
 	
-	//파일전송 폼 보여주기
+	// httpPost, httpClient 사용한 파일전송 실행
 	@RequestMapping(value = "/test", method = RequestMethod.POST)
 	public String fileTest(String id, String name, MultipartFile file ) {
 		System.out.println("fileTest 진입");
@@ -198,4 +198,28 @@ public class HomeController {
 		return "paramAndFile";
 	}
 	
+	//파일전송 폼 보여주기
+	@RequestMapping(value = "/json", method = RequestMethod.GET)
+	public String jsonTest() {
+		return "json";
+	}
+	
+	// json타입으로 전송 파일전송 폼 보여주기
+	@RequestMapping(value = "/json", method = RequestMethod.POST)
+	public String jsonTest(String id, String name) {
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("id", id);
+		jsonObj.put("name", name);
+		String jsonStr = jsonObj.toString();
+		System.out.println("jsonObj.toString:"+jsonStr);
+		Http http = new Http("http://127.0.0.1/huc/getJson");
+		try {
+			http.addParam("jsonStr", jsonStr).submit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "json";
+	}
 }

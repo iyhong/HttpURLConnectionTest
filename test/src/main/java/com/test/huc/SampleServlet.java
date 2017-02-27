@@ -4,11 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
+
 
 @Controller
 public class SampleServlet {
@@ -67,5 +71,27 @@ public class SampleServlet {
 			e.printStackTrace();
 		}
 		return ;
+	}
+	
+	// json타입으로 받아 출력
+	@RequestMapping(value = "/getJson", method = RequestMethod.POST)
+	public String getJson(Model model, String jsonStr) {
+		System.out.println("/getJson 들어옴!");
+		System.out.println("jsonStr:"+jsonStr);
+		model.addAttribute("jsonStr", jsonStr);
+		JSONParser parser = new JSONParser();
+		JSONObject jsonObj = new JSONObject();
+		try {
+			jsonObj = (JSONObject) parser.parse(jsonStr);
+			String id = (String) jsonObj.get("id");
+			String name = (String) jsonObj.get("name");
+			System.out.println("id:"+id);
+			System.out.println("name:"+name);
+			model.addAttribute("json", jsonStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "json";
 	}
 }
