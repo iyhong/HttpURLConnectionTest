@@ -95,6 +95,7 @@ public class HomeController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("예외발생!!");
 		} finally {
 			// 접속 해제
 			conn.disconnect();

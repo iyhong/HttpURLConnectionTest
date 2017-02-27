@@ -46,12 +46,14 @@ public class SampleServlet {
 	}
 	
 	@RequestMapping(value = "/getParamAndFile", method = RequestMethod.POST)
-	public String getData(Model model, MultipartFile file, String id, String name) {
+	public void getData(Model model, MultipartFile file, String id, String name) {
 		System.out.println("/getData 들어옴!");
 		System.out.println("fileName:"+file.getName());
 		System.out.println("fileName:"+file.getOriginalFilename());
 		System.out.println("id:"+id);
 		System.out.println("name:"+name);
+		
+		//파일생성경로 테스트하려면 변경해서 사용
 		//File f= new File("C:\\Users\\user\\Desktop\\"+"new"+file.getOriginalFilename());
 		File f= new File("C:\\Users\\Administrator\\Desktop\\"+"new"+file.getOriginalFilename());
 		
@@ -64,6 +66,6 @@ public class SampleServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "file";
+		return ;
 	}
 }
