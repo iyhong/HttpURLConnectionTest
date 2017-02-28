@@ -1,10 +1,12 @@
 package com.test.huc;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -83,7 +85,7 @@ public class HomeController {
 			
 			//응답결과 받아오기
 			InputStream in = conn.getInputStream();
-			/*BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8")); // 캐릭터셋 설정
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8")); // 캐릭터셋 설정
 			StringBuilder sb = new StringBuilder();
 			String line = null;
 			while ((line = br.readLine()) != null) {
@@ -92,7 +94,7 @@ public class HomeController {
 				}
 				sb.append(line);
 			}
-			System.out.println("response:" + sb.toString());*/
+			System.out.println("response:" + sb.toString());
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -241,6 +243,7 @@ public class HomeController {
 	@ResponseBody
 	@RequestMapping(value = "/returnJson", method = RequestMethod.GET)
 	public String returnJson() {
+		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("id", "아이디");
 		jsonObj.put("name", "이름");

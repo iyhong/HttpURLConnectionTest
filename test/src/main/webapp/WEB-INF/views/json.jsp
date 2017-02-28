@@ -13,7 +13,7 @@
 	Json Test!  
 </h1>
 
-<form action="<c:url value="/json"/>" method="post" enctype="multipart/form-data">
+<form action="<c:url value="/json"/>" method="post">
 	id:<input type="text" name="id"><br>
 	name:<input type="text" name="name"><br>
 	<input type="submit">
