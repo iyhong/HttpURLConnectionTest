@@ -11,7 +11,9 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -250,5 +252,24 @@ public class HomeController {
 		String jsonStr = jsonObj.toString();
 		System.out.println(jsonStr);
 		return jsonStr;
+	}
+	
+	@RequestMapping(value = "/getMedicine", method = RequestMethod.GET)
+	public String getMedicine(){
+		System.out.println("getMedicine 진입");
+		Http http = new Http("http://loverman85.cafe24.com/bigbang/government/getMedicineCode");
+		try {
+			String listStr = http.submit();
+			//listStr = URLEncoder.encode(listStr);
+			System.out.println("listStr:"+listStr);
+			JSONParser parser = new JSONParser();
+			JSONObject resultJson = new JSONObject();
+			resultJson = (JSONObject) parser.parse(listStr);
+			System.out.println("resultJson:"+resultJson);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 }
