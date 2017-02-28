@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -73,7 +74,8 @@ public class SampleServlet {
 		return ;
 	}
 	
-	// json타입으로 받아 출력
+	// json타입으로 받아 출력하고 json타입으로 response에 담아 응답한다.
+	@ResponseBody
 	@RequestMapping(value = "/getJson", method = RequestMethod.POST)
 	public String getJson(Model model, String jsonStr) {
 		System.out.println("/getJson 들어옴!");
@@ -81,17 +83,23 @@ public class SampleServlet {
 		model.addAttribute("jsonStr", jsonStr);
 		JSONParser parser = new JSONParser();
 		JSONObject jsonObj = new JSONObject();
+		String result = "";
 		try {
+			//전달받은 String타입을 json타입으로 변환해서 전달받은 매개변수값 가져옴
 			jsonObj = (JSONObject) parser.parse(jsonStr);
 			String id = (String) jsonObj.get("id");
 			String name = (String) jsonObj.get("name");
 			System.out.println("id:"+id);
 			System.out.println("name:"+name);
-			model.addAttribute("json", jsonStr);
+			
+			//json타입으로 결과를 담아 response를 통해 응답
+			JSONObject returnJson = new JSONObject();
+			returnJson.put("result", "success");
+			result = returnJson.toJSONString();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "json";
+		return result;
 	}
 }

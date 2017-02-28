@@ -11,11 +11,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -205,6 +207,7 @@ public class HomeController {
 	}
 	
 	// json타입으로 전송 파일전송 폼 보여주기
+	@ResponseBody
 	@RequestMapping(value = "/json", method = RequestMethod.POST)
 	public String jsonTest(String id, String name) {
 		
@@ -214,12 +217,35 @@ public class HomeController {
 		String jsonStr = jsonObj.toString();
 		System.out.println("jsonObj.toString:"+jsonStr);
 		Http http = new Http("http://127.0.0.1/huc/getJson");
+		String result = "";
 		try {
-			http.addParam("jsonStr", jsonStr).submit();
+			//jsonStr값을 전송후 response받은 result(json type)을 리턴받음
+			result = http.addParam("jsonStr", jsonStr).submit();
+			
+			//리턴받은 json타입을 변환
+			JSONParser parser = new JSONParser();
+			JSONObject resultJson = new JSONObject();
+			resultJson = (JSONObject) parser.parse(result);
+			System.out.println(resultJson);
+			if(resultJson.get("result").equals("success")){
+				System.out.println("전송성공");
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "json";
+		return result;
+	}
+	
+	//파일전송 폼 보여주기
+	@ResponseBody
+	@RequestMapping(value = "/returnJson", method = RequestMethod.GET)
+	public String returnJson() {
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("id", "아이디");
+		jsonObj.put("name", "이름");
+		String jsonStr = jsonObj.toString();
+		System.out.println(jsonStr);
+		return jsonStr;
 	}
 }
