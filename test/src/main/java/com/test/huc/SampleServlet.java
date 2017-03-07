@@ -37,7 +37,7 @@ public class SampleServlet {
 		System.out.println("id:"+id);
 		System.out.println("name:"+name);
 		//File f= new File("C:\\Users\\user\\Desktop\\"+"new"+file.getOriginalFilename());
-		File f= new File("C:\\Users\\Administrator\\Desktop\\"+"new"+file.getOriginalFilename());
+		/*File f= new File("C:\\Users\\Administrator\\Desktop\\"+"new"+file.getOriginalFilename());
 		
 		try {
 			file.transferTo(f);
@@ -47,7 +47,7 @@ public class SampleServlet {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		return "file";
 	}
 	

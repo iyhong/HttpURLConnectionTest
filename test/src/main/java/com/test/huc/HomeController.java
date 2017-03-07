@@ -124,7 +124,6 @@ public class HomeController {
 			InputStream fileInputStream = file.getInputStream();
 			//URL설정
 			URL connectURL = new URL("http://localhost/huc/getFile");
-
 			//새로운 접속을 연다.
 			HttpURLConnection conn = (HttpURLConnection)connectURL.openConnection(); 
 
@@ -146,10 +145,15 @@ public class HomeController {
 			//Output스트림을 열어
 			DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
 			dos.writeBytes("--" + boundary + "\r\n"); 
-
 			dos.writeBytes( "Content-Disposition: form-data; name=\""+ "id"	+ "\""+ "\r\n" ) ;
 			dos.writeBytes( "\r\n" ) ;
-			dos.write( "what The Fuck 한글".getBytes("utf-8") ) ;
+			dos.write( "아이디".getBytes("utf-8") ) ;
+			dos.writeBytes( "\r\n" );
+			
+			dos.writeBytes("--" + boundary + "\r\n"); 
+			dos.writeBytes( "Content-Disposition: form-data; name=\""+ "name" + "\""+ "\r\n" ) ;
+			dos.writeBytes( "\r\n" ) ;
+			dos.write( "이름".getBytes("utf-8") ) ;
 			dos.writeBytes( "\r\n" );
 			
 			dos.writeBytes("--" + boundary + "\r\n"); 
@@ -173,22 +177,11 @@ public class HomeController {
 				bytesRead = fileInputStream.read(buffer, 0, bufferSize); 
 			} 
 			fileInputStream.close();
-
 			dos.writeBytes("\r\n"); 
-			
-			dos.writeBytes("--" + boundary + "\r\n"); 
 
-			
-			dos.writeBytes( "Content-Disposition: form-data; name=\""+ "name"	+ "\""+ "\r\n" ) ;
-			dos.writeBytes( "\r\n" ) ;
-			dos.write( "what The Fuck 한글".getBytes("utf-8") ) ;
-			dos.writeBytes( "\r\n" );
-			
 			dos.writeBytes("--" + boundary + "--" + "\r\n"); 
 			//써진 버퍼를 stream에 출력.  
 			dos.flush(); 
-			
-			
 			//전송. 결과를 수신.
 			InputStream is = conn.getInputStream(); 
 		} catch (IOException e) {
