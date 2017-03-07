@@ -29,12 +29,13 @@ public class SampleServlet {
 	}
 	
 	@RequestMapping(value = "/getFile", method = RequestMethod.POST)
-	public String getURL(Model model, MultipartFile file, String id) {
+	public String getURL(Model model, MultipartFile file, String id, String name) {
 		System.out.println("/getFile 들어옴!");
 		System.out.println("file:"+file);
 		System.out.println("fileName:"+file.getName());
 		System.out.println("fileName:"+file.getOriginalFilename());
 		System.out.println("id:"+id);
+		System.out.println("name:"+name);
 		//File f= new File("C:\\Users\\user\\Desktop\\"+"new"+file.getOriginalFilename());
 		File f= new File("C:\\Users\\Administrator\\Desktop\\"+"new"+file.getOriginalFilename());
 		
@@ -51,12 +52,13 @@ public class SampleServlet {
 	}
 	
 	@RequestMapping(value = "/getParamAndFile", method = RequestMethod.POST)
-	public void getData(Model model, MultipartFile file, String id, String name) {
+	public void getData(Model model, MultipartFile file, String id, String name, String test) {
 		System.out.println("/getData 들어옴!");
 		System.out.println("fileName:"+file.getName());
 		System.out.println("fileName:"+file.getOriginalFilename());
 		System.out.println("id:"+id);
 		System.out.println("name:"+name);
+		System.out.println("test:"+test);
 		
 		//파일생성경로 테스트하려면 변경해서 사용
 		//File f= new File("C:\\Users\\user\\Desktop\\"+"new"+file.getOriginalFilename());

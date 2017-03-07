@@ -142,8 +142,16 @@ public class HomeController {
 			conn.setRequestProperty("Connection","Keep-Alive"); 
 			conn.setRequestProperty("Content-Type","multipart/form-data;boundary="+boundary); 
 
+
 			//Output스트림을 열어
-			DataOutputStream dos = new DataOutputStream(conn.getOutputStream()); 
+			DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+			dos.writeBytes("--" + boundary + "\r\n"); 
+
+			dos.writeBytes( "Content-Disposition: form-data; name=\""+ "id"	+ "\""+ "\r\n" ) ;
+			dos.writeBytes( "\r\n" ) ;
+			dos.write( "what The Fuck 한글".getBytes("utf-8") ) ;
+			dos.writeBytes( "\r\n" );
+			
 			dos.writeBytes("--" + boundary + "\r\n"); 
 			dos.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\""+ file.getOriginalFilename() +"\"" + "\r\n"); 
 			dos.writeBytes("\r\n"); 
@@ -164,12 +172,22 @@ public class HomeController {
 				bufferSize = Math.min(bytesAvailable, maxBufferSize); 
 				bytesRead = fileInputStream.read(buffer, 0, bufferSize); 
 			} 
-			dos.writeBytes("\r\n"); 
-			dos.writeBytes("--" + boundary + "--" + "\r\n"); 
 			fileInputStream.close();
 
+			dos.writeBytes("\r\n"); 
+			
+			dos.writeBytes("--" + boundary + "\r\n"); 
+
+			
+			dos.writeBytes( "Content-Disposition: form-data; name=\""+ "name"	+ "\""+ "\r\n" ) ;
+			dos.writeBytes( "\r\n" ) ;
+			dos.write( "what The Fuck 한글".getBytes("utf-8") ) ;
+			dos.writeBytes( "\r\n" );
+			
+			dos.writeBytes("--" + boundary + "--" + "\r\n"); 
 			//써진 버퍼를 stream에 출력.  
 			dos.flush(); 
+			
 			
 			//전송. 결과를 수신.
 			InputStream is = conn.getInputStream(); 
@@ -192,10 +210,12 @@ public class HomeController {
 		System.out.println("id:"+id);
 		System.out.println("name:"+name);
 		System.out.println("fileName:"+file.getOriginalFilename());
-		Http http = new Http("http://127.0.0.1/huc/getParamAndFile");
+		//Http http = new Http("http://127.0.0.1/huc/getParamAndFile");
+		Http http = new Http("http://192.168.123.147/bigbang/government/getHospitalInfo");
 		File f = new File(file.getOriginalFilename());
 		try {
 			file.transferTo(f);
+			http.addParam("test","최유민똥꼬");
 			http.addParam("id", id).addParam("name", name).addParam("file", f).submit();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
